@@ -15,6 +15,7 @@ public class BallService implements IBall {
     @Autowired
     private BallRepository ballRepository;
     @Override
+    @Transactional
     public Ball createBall(Ball ball) {
         return ballRepository.save(ball);
     }
@@ -26,11 +27,13 @@ public class BallService implements IBall {
     }
 
     @Override
+    @Transactional
     public Ball getBallById(Integer id){
         return ballRepository.getBallById(id);
     }
 
     @Override
+    @Transactional
     public Collection<Ball> getAllBalls() {
         return ballRepository.getAllBalls();
     }

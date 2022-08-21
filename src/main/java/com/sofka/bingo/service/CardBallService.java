@@ -17,11 +17,13 @@ public class CardBallService implements ICardBall {
     private CardBallRepository cardBallRepository;
 
     @Override
+    @Transactional
     public CardBall save(CardBall cardBall) {
         return cardBallRepository.save(cardBall);
     }
 
     @Override
+    @Transactional
     public Optional<CardBall> findByCardAndBallot(String cardId, Integer ballId) {
         return cardBallRepository.findByCardAndBallot(cardId, ballId);
     }
@@ -33,6 +35,7 @@ public class CardBallService implements ICardBall {
     }
 
     @Override
+    @Transactional
     public ArrayList<Boolean> findCardBallMarked(String cardId) {
         return cardBallRepository.findCardBallMarked(cardId);
     }

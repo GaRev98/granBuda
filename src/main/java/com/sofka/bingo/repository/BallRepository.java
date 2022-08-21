@@ -11,7 +11,7 @@ import java.util.Collection;
 public interface BallRepository extends CrudRepository<Ball, Integer> {
 
     @Modifying
-    @Query("update Ball ball set ball.out = true  where ball.id = :id")
+    @Query("update Ball ball set ball.out = true, ball.order = current_timestamp where ball.id = :id")
     public void outBall(
             @Param(value = "id") Integer id
     );
@@ -21,7 +21,7 @@ public interface BallRepository extends CrudRepository<Ball, Integer> {
             @Param(value = "id") Integer id
     );
 
-    @Query("SELECT ball FROM Ball ball where ball.out = true")
+    @Query("SELECT ball FROM Ball ball where ball.out = true order by ball.order")
     public Collection<Ball> getAllBalls();
 
 }

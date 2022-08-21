@@ -68,7 +68,7 @@ public class BingoController {
     }
 
     @PostMapping(path = "/generateBalls")
-    public ResponseEntity<Response> createCard() {
+    public ResponseEntity<Response> generateBalls() {
         response.restart();
         try {
             log.info("Generar balotas");
@@ -87,14 +87,17 @@ public class BingoController {
         return new ResponseEntity(response, httpStatus);
     }
 
-    @GetMapping(path = "/gameStarted")
+    @GetMapping(path = "/game")
     public ResponseEntity<Response> gameStarted() {
         response.restart();
         try {
-            log.info("Comprobando si el juego esta iniciado");
-            response.data = gameService.gameStarted();
-            httpStatus = HttpStatus.CREATED;
-            response.message = "Boleano";
+            log.info("Informacion del juego");
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("started", gameService.gameStarted());
+            map.put("admin", gameService.getAdmin());
+            response.data = map;
+            httpStatus = HttpStatus.OK;
+            response.message = "Informacion del juego";
         } catch (Exception exception) {
             log.info(String.valueOf(exception));
             response.message = "Error";
@@ -203,8 +206,7 @@ public class BingoController {
             if (marked.get(0) && marked.get(4) && marked.get(20) && marked.get(24)) status = true;
             else if (marked.get(0) && marked.get(6) && marked.get(18) && marked.get(24)) status = true;
             else if (marked.get(4) && marked.get(8) && marked.get(16) && marked.get(20)) status = true;
-            else
-                for (int i = 0; i < 5; i++) {
+            else for (int i = 0; i < 5; i++) {
                     //Horizontales
                     if (marked.get(i)
                             && marked.get(i + 5)
@@ -222,13 +224,38 @@ public class BingoController {
                         status = true;
                     }
                 }
+            if (status) gameService.setWinner(cardId);
             response.data = status;
             httpStatus = HttpStatus.CREATED;
             response.message = "Boleano";
         } catch (Exception exception) {
             log.info(String.valueOf(exception));
+            response.message = String.valueOf(exception);
+            response.error = true;
+        }
+        return new ResponseEntity(response, httpStatus);
+    }
+
+    @GetMapping(path = "/getWinner")
+    public ResponseEntity<Response> getAdmin() {
+        response.restart();
+        try {
+            log.info("Comprobando si el juego esta iniciado");
+            response.data = gameService.getWinner();
+            httpStatus = HttpStatus.CREATED;
+            response.message = "Id Admin";
+        } catch (Exception exception) {
+            log.info(String.valueOf(exception));
             response.message = "Error";
         }
         return new ResponseEntity(response, httpStatus);
+    }
+
+    @GetMapping(path = "/prueba")
+    public ResponseEntity<Object> prueba() {
+        var prueba = "Prueba";
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("message", prueba);
+        return ResponseEntity.ok(map);
     }
 }

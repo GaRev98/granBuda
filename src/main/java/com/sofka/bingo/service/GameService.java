@@ -5,8 +5,10 @@ import com.sofka.bingo.repository.CardRepository;
 import com.sofka.bingo.service.interfaces.IGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class GameService implements IGame {
@@ -21,4 +23,16 @@ public class GameService implements IGame {
         else return false;
     }
 
+    @Transactional
+    public String getAdmin() {
+        return cardRepository.getAdmin();
+    }
+
+    @Transactional
+    public void setWinner(String id) { cardRepository.setWinner(id);}
+
+    @Transactional
+    public Optional<String> getWinner() {
+        return cardRepository.getWinner();
+    }
 }

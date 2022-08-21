@@ -19,4 +19,9 @@ public class Card implements Serializable {
     @Column(name = "idcard", nullable = false, length = 24)
     private String id;
 
+    @Column(name = "admin")
+    private Boolean admin;
+
+    @Column(name = "winner")
+    private Boolean winner;
 }
