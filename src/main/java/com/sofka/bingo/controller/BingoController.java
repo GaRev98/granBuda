@@ -95,6 +95,7 @@ public class BingoController {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("started", gameService.gameStarted());
             map.put("admin", gameService.getAdmin());
+            map.put("cards", gameService.allCards());
             response.data = map;
             httpStatus = HttpStatus.OK;
             response.message = "Informacion del juego";

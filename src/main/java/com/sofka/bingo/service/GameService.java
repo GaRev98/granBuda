@@ -23,6 +23,10 @@ public class GameService implements IGame {
         else return false;
     }
 
+    public Collection<Card> allCards () {
+        return cardRepository.getAllCards();
+    }
+
     @Transactional
     public String getAdmin() {
         return cardRepository.getAdmin();
